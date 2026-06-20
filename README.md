@@ -1,58 +1,183 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+Система учета протоколов стипендиальной комиссии 
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
 
-## About Laravel
+Система управления протоколами стипендиальной комиссии Югорского государственного университета
+Дипломный проект по автоматизации документооборота и учёта материальной поддержки студентов.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+📋 Описание
+Проект представляет собой веб‑приложение для автоматизации работы стипендиальной комиссии вуза. Оно позволяет: 
+вести учёт студентов, групп, направлений и высших школ;
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+управлять категориями материальной поддержки (более 30 категорий);
 
-## Learning Laravel
+назначать выплаты студентам с привязкой к учебному году и месяцу;
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+генерировать протоколы заседаний комиссии в форматах Word (.docx) и PDF;
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+формировать аналитические отчёты с графиками и таблицами;
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+разграничивать доступ по ролям (администратор, руководитель, заместитель, секретарь, член комиссии).
 
-## Agentic Development
+Система разработана на фреймворке Laravel 11 с использованием MySQL в качестве СУБД. Весь старый код на чистом PHP был полностью переписан в соответствии с MVC-архитектурой Laravel, внедрены миграции, сидеры, модели, контроллеры, Blade-шаблоны и маршруты.
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+🚀 Основные возможности
+👤 Аутентификация и управление пользователями
+Регистрация/вход через сессии с защитой CSRF.
 
-```bash
-composer require laravel/boost --dev
+Роли: admin, director, deputy_director, secretary, member.
 
-php artisan boost:install
-```
+Администратор может управлять пользователями: создавать, редактировать, удалять, назначать роли и школы.
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+Профиль пользователя: смена ФИО, email, телефона, пароля, загрузка/удаление аватара, завершение всех сеансов.
 
-## Contributing
+🏫 Справочники
+Высшие школы и направления – CRUD для школ и направлений подготовки (уровень: бакалавриат, специалитет, магистратура, аспирантура).
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Группы и студенты – управление группами с привязкой к направлениям; добавление студентов по одному или массовый импорт из Excel (с поддержкой колонки "ФИО").
 
-## Code of Conduct
+Категории материальной поддержки – более 30 категорий с указанием номера, названия, перечня документов, периодичности выплат, максимальной суммы и условия (фиксированная или «в объёме затрат, но не более»).
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+📄 Генерация протоколов
+Интерактивный конструктор шаблона протокола заседания комиссии.
 
-## Security Vulnerabilities
+Предпросмотр документа в реальном времени.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Загрузка студентов по выбранному месяцу и учебному году с автоматическим разделением на бюджетные группы (РФ / ХМАО).
 
-## License
+Генерация протокола в формате Word (.docx) с помощью PhpOffice/PhpWord и PDF через LaTeX (или через TCPDF в перспективе).
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Сохранение сгенерированных протоколов в базу данных (снапшот данных студентов).
+
+📊 Аналитика и отчёты
+Дашборд с ключевыми метриками (общая сумма выплат, количество студентов, количество выплат, средний размер и количество сгенерированных протоколов).
+
+Фильтрация по учебному году, диапазону месяцев и школе (для администратора).
+
+Графики: распределение по категориям (круговая диаграмма), динамика выплат по месяцам (столбцы/линия), распределение по бюджетам, распределение по школам.
+
+Топ-10 студентов по сумме выплат.
+
+Детализация по категории с выводом списка студентов.
+
+Экспорт отчёта в CSV.
+
+🛠 Дополнительный функционал
+Inline‑редактирование данных в таблицах (по двойному клику).
+
+Загрузка файлов для студентов (справки, заявления, сканы документов) с хранением в storage/app/public.
+
+Массовое обновление бюджета для выбранных студентов.
+
+Адаптивный дизайн с фиксированным сайдбаром и возможностью сворачивания.
+
+🧰 Стек технологий
+Компонент	Технология
+Backend	Laravel 11, PHP 8.2+
+Frontend	Blade, Bootstrap 5, Bootstrap Icons, Font Awesome
+База данных	MySQL 5.7+
+Графики	Chart.js + плагин datalabels
+Работа с Excel	PhpOffice/PhpSpreadsheet
+Генерация Word	PhpOffice/PhpWord
+Генерация PDF	LaTeX (latexmk + pdflatex) или TCPDF (опционально)
+Сборка	Composer, NPM (Vite)
+Контроль версий	Git, GitHub
+📦 Установка и запуск
+Требования
+PHP 8.2+
+
+Composer
+
+Node.js (для сборки ассетов)
+
+MySQL 5.7+
+
+Пошаговая инструкция
+Клонируйте репозиторий
+
+bash
+git clone https://github.com/ваш-username/stipend-protocol-system.git
+cd stipend-protocol-system
+Установите зависимости PHP
+
+bash
+composer install
+Установите зависимости Node
+
+bash
+npm install
+npm run build
+Создайте файл окружения
+
+bash
+cp .env.example .env
+Настройте подключение к БД в .env
+
+ini
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=stipend
+DB_USERNAME=root
+DB_PASSWORD=your_password
+Сгенерируйте ключ приложения
+
+bash
+php artisan key:generate
+Запустите миграции и сидеры
+
+bash
+php artisan migrate --seed
+Сидеры наполнят базу тестовыми данными: школы, категории, группы, студенты, пользователи (в т.ч. администратор admin@ugrasu.ru с паролем admin123).
+
+Создайте символическую ссылку для публичного хранилища
+
+bash
+php artisan storage:link
+Запустите сервер
+
+bash
+php artisan serve
+Приложение будет доступно по адресу http://127.0.0.1:8000.
+
+🗄 Структура базы данных
+Основные таблицы:
+
+users – пользователи (роль, школа, контакты, аватар)
+
+Schools – высшие школы
+
+Directions – направления подготовки
+
+Groups – учебные группы
+
+Students – студенты (ФИО, бюджет, группа, контакты)
+
+categories – категории материальной поддержки
+
+StudentReasons – назначения выплат (студент, категория, месяц, сумма, учебный год)
+
+StudentFiles – загруженные файлы студентов
+
+GeneratedProtocols – сгенерированные протоколы (снапшот, имя файла, бинарное содержимое)
+
+TemplateVariables – пользовательские переменные шаблона протокола
+
+AcademicYears – учебные годы
+
+user_tokens, user_sessions – для управления сессиями и remember‑токенами
+
+🔐 Права доступа
+Роль	Описание	Доступные разделы
+admin	Администратор системы	Все разделы, включая управление пользователями
+director	Руководитель высшей школы	Просмотр/редактирование своей школы, направлений, групп, студентов, отчёты, генерация протоколов
+deputy_director	Заместитель руководителя	Аналогично директору, но без удаления школы
+secretary	Секретарь комиссии	Просмотр и редактирование студентов, групп, отчёты, генерация протоколов
+member	Член комиссии	Только просмотр данных и генерация отчётов
+📝 Тестовые учётные записи
+После выполнения сидеров доступны следующие пользователи:
+
+Логин	Пароль	Роль
+admin@ugrasu.ru	admin123	Администратор
+o_samarina@ugrasu.ru	1234	Руководитель (ИШЦТ)
+a_shevchenko@ugrasu.ru	1234	Член комиссии (ИШЦТ)
